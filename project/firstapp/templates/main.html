@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <title>웹툰 스크래퍼</title>
+    <style type="text/css">
+        thead {
+            background-color: #cecece;
+        }
+
+        .content {
+            max-width: 500px;
+            margin: auto;
+            padding: 10px;
+        }
+
+        .header {
+            text-align: center;
+        }
+
+        .board {
+            width: 100%
+        }
+
+        .even_bgcolor {
+            background-color: #e8efff;
+        }
+
+        .pagination {
+            display: flex;
+        }
+
+        .current {
+            font-weight: bold;
+        }
+
+        a {
+            text-decoration: none;
+            text-align: center;
+        }
+
+        .abutton {
+            background-color: #e6e6ff;
+            color: #7b7b7b;
+            font-size: small;
+        }
+
+        form>label {
+            display: inline-block;
+            width: 120px;
+        }
+
+        form>input {
+            padding: 4px;
+            margin-bottom: 4px;
+        }
+    </style>
+</head>
+
+<body>
+    <h1>웹툰을 긁어보자</h1>
+    <form action="http://localhost:8000/firstapp/crawling" method="POST" id="crawlForm">
+        {% csrf_token %}
+        <label for="link">주소를 입력하세요</label>
+        <input type="text" autocomplete="off" id="link" name="webtoon_url" size="50" placeholder="Write a link">
+        <button type="submit" form=crawlForm>긁기 시작</button>
+        <p></p>
+        <b>위 내용은 어떠한 목적도 없이 크롤링이라는 기술을 활용함에 있어 네이버 웹툰을 타겟으로 지정한 교육용임을 알립니다.</b>
+    </form>
+
+    <div class="content">
+        <div class="header">
+            <h2>{{title}}</h2>
+        </div>
+        <div style="height:280px;">
+            <table class="board">
+                <thead>
+                    <tr class="header">
+                        <th style="width:10%;">순번</th>
+                        <th style="width:60%;">제목</th>
+                        <th style="width:30%;">기능</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% if board_list%}
+                    {% for data in board_list%}
+                    <tr class="{% cycle '' 'even_bgcolor' %}">
+                        <td style="text-align:center;">{{ forloop.counter}}</td>
+                        <td>
+                            {{data.title}}
+                            </a>
+                        </td>
+                        <td>
+                            [<a href="./view/{{data.id}}" style= "font-weight:bold">View</a>]
+                            [<a href="./delete/{{data.id}}" style="font-weight:bold">Del</a>]
+                        </td>
+                    </tr>
+                    {% endfor %}
+                    {% else %}
+                    <tr>
+                        <td></td>
+                        <td> 작성된 게시글이 없습니다. </td>
+                    </tr>
+                    {% endif %}
+                </tbody>
+            </table>
+        </div>
+        <!-- Pagination -->
+        <div style="text-align:center">
+            <div class="pagination">
+                <div style="width:35%; margin: 5px;">
+                    {% if board_list.has_previous %}
+                    <a class="abutton" href="?pae=1">맨 앞으로</a>
+                    <a class="abutton" href="?page={{ board_list.previous_page_number }}">이전</a>
+                    {% endif %}
+                </div>
+                <div style="width:30%; margin: 5px;">
+                    {% for page in board_list.paginator.page_range %}
+                    {% if page >= board_list.number|add:-2 and page <= board_list.number|add:2 %} <span
+                        class="{% if page == board_list.number %}current{% endif %}">
+                        <a href="?page={{ page }}">{{ page }}</a>
+                        </span>
+                        {% elif page >= board_list.number|add:-3 and page <= board_list.number|add:3 %} .. {% endif %}
+                            {% endfor %} </div>
+
+                            <div style="width:35%; margin:5px;">
+                                {% if board_list.has_next %}
+                                <a class="abutton" href="?page={{board_list.next_page_number}}">다음</a>
+                                <a class="abutton" href="?page={{board_list.paginator.num_pages}}">맨 뒤로</a>
+                                {% endif %}
+                            </div>
+                </div>
+            </div>
+        </div>
+        <div style="padding-top: 50px">
+            <ul style="line-height: 2em">
+                {% for article in lists %}
+                <li>
+                    <b>{{article.id}}&nbsp;&nbsp;{{article.title}}</b>
+                    comic.naver.com/webtoon/list?titleId={{article.title_numbers}}&weekday={{article.week}}
+                    &nbsp;&nbsp;&nbsp;
+                    [<a href="./view/{{article.id}}" style= "font-weight:bold">View</a>]
+                    [<a href="./delete/{{article.id}}" style="font-weight:bold">Del</a>]
+                </li>
+                {% endfor %}
+            </ul>
+        </div>
+</body>
+
+</html>

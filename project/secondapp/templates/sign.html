@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <title>회원가입 타이틀</title>
+    </head>
+    <body>
+        <div class="container">
+            <div class="row mt-5">
+                <div class="col-12 text-center">
+                    <h1>회원가입</h1>
+                </div>
+            </div>
+            <div class="row mt-5">
+                <div class="col-12">
+                    <b>{{error}}</b>
+                    <p></p>
+                </div>
+            </div>
+
+            <div class="row mt-5">
+                <div class="col-12">
+                    <form method="POST" action=".">
+                        {% csrf_token %}
+                        <div class="form-group">
+                            <label for="username">사용자 이름 입력</label>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                            <input type="text" class="form-control" id="username" name="username" placeholder="사용자이름">
+                        </div><p></p>
+                        <div class="form-group">
+                            <label for="useremail">사용자 이메일 입력</label>&nbsp;&nbsp;&nbsp;
+                            <input type="text" class="form-control" id="useremail" name="useremail" placeholder="사용자 이메일">
+                        </div><p></p>
+                        <div class="form-group">
+                            <label for="password">비밀번호 입력</label>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                            <input type="password" class="form-control" id="password" name="password" placeholder="비밀번호">
+                        </div><p></p>
+                        <div class="form-group">
+                            <label for="re-password">비밀번호 확인</label>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                            <input type="password" class="form-group" id="re-password" name="re-password" placeholder="비밀번호 확인">
+                        </div><p></p>
+                        <button type="submit" class="btn btn-primary">Submit</button>
+                    </form>
+                </div>
+            </div>
+
+        </div>
+    </body>
+</html>
