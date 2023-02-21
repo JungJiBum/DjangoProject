@@ -11,6 +11,7 @@ https://docs.djangoproject.com/en/4.1/ref/settings/
 """
 
 from pathlib import Path
+from .my_settings import MY_SCRET, MY_DATABASES
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -20,7 +21,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/4.1/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-d+c&h3$gm%#gcuf#pe$ual&w1v5_p_s(x(l!ikm5n^w)3o6#m@'
+SECRET_KEY = MY_SCRET["SECRET_KEY"]
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
@@ -75,16 +76,7 @@ WSGI_APPLICATION = 'project.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/4.1/ref/settings/#databases
 
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.mysql',
-        'HOST': '127.0.0.1',  # 데이터 베이스 서버 IP -> 삽질을 해야 아는 겁니다
-        'NAME': 'django',  # 데이터 베이스 이름
-        'USER': 'root',  # 데이터 베이스 유저 이름
-        'PASSWORD': 'root',  # 데이터 베이스 유저의 비밀번호
-        'PORT': '3307'  # 데이터 베이스 포트, 기본값은 3306 -> 이것도 삽질 해야 함
-    }
-}
+DATABASES = MY_DATABASES
 
 
 # Password validation
